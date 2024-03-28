@@ -1,11 +1,14 @@
 pipeline {
-    node {
-        stage('SCM') {
-            git 'https://github.com/knightdialer/sonarqube-scan.git'
-        }
-        stage('SonarQube analysis') {
-            withSonarQubeEnv(installationName: 'sonarqube') { 
-                sh 'mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.7.0.1746:sonar'
+    agent {label 'linux'}
+    options {
+        buildDiscarder(logRotator(numToKeepStr: '5'))
+    }
+    stages {
+        stage('Scan') {
+            steps {
+                withSonarQubeEnv(installationName: 'sonarqube') { 
+                    sh './mvnw clean org.sonarsource.scanner.maven:sonar-maven-plugin:3.9.0.2155:sonar'
+                }
             }
         }
     }
