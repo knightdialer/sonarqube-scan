@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('SCM') {
             steps {
-                git 'https://github.com/knightdialer/sonarqube-scan.git'
+                git branch: 'main', url: 'https://github.com/knightdialer/sonarqube-scan.git'
             }
             
         }
